@@ -1,7 +1,7 @@
-package com.backend.controleestoque.repository;
+package com.backend.controle_estoque.repository;
 
-import com.backend.controleestoque.model.MovimentoEstoque;
-import com.backend.controleestoque.model.enums.TipoMovimentacaoEnum;
+import com.backend.controle_estoque.model.MovimentoEstoque;
+import com.backend.controle_estoque.model.enums.TipoMovimentacaoEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

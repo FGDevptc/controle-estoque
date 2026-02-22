@@ -1,6 +1,6 @@
-package com.backend.controleestoque.model;
+package com.backend.controle_estoque.model;
 
-import com.backend.controleestoque.model.enums.TipoMovimentacaoEnum;
+import com.backend.controle_estoque.model.enums.TipoMovimentacaoEnum;
 import jakarta.persistence.*;
 import lombok.*;
 

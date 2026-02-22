@@ -1,0 +1,21 @@
+package com.backend.controle_estoque.controller.docs;
+
+import com.backend.controle_estoque.api.BaseResponse;
+import com.backend.controle_estoque.dto.ProdutoRequestDTO;
+import com.backend.controle_estoque.dto.ProdutoResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
+
+public interface ProdutoControllerDoc {
+
+    @Operation(summary = "Criar novo produto")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação"),
+            @ApiResponse(responseCode = "500", description = "Erro interno")
+    })
+    ResponseEntity<BaseResponse<ProdutoResponseDTO>> criar(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do produto", required = true) ProdutoRequestDTO dto);
+}

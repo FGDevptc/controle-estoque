@@ -1,4 +1,4 @@
-package com.backend.controleestoque.model.enums;
+package com.backend.controle_estoque.model.enums;
 
 public enum TipoProdutoEnum {
     ELETRONICO,
