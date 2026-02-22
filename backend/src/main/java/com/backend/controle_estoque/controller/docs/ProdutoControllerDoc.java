@@ -49,4 +49,13 @@ public interface ProdutoControllerDoc {
         ResponseEntity<BaseResponse<ProdutoResponseDTO>> editar(
                         Long id,
                         ProdutoRequestDTO dto);
+
+        @Operation(summary = "Deletar produto")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Produto deletado com sucesso"),
+                        @ApiResponse(responseCode = "404", description = "Produto não encontrado"),
+                        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+        })
+        ResponseEntity<BaseResponse<Void>> deletar(
+                        @Parameter(description = "ID do produto", example = "1") Long id);
 }

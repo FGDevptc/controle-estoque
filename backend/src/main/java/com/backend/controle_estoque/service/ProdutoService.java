@@ -37,8 +37,7 @@ public class ProdutoService {
 
     @Transactional(readOnly = true)
     public List<ProdutoResponseDTO> listar() {
-
-        return repository.findAll()
+        return repository.findByAtivoTrue()
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -80,5 +79,18 @@ public class ProdutoService {
         Produto atualizado = repository.save(produto);
 
         return mapper.toResponse(atualizado);
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+
+        Produto produto = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "0002",
+                        "Produto não encontrado"));
+
+        produto.setAtivo(false);
+
+        repository.save(produto);
     }
 }

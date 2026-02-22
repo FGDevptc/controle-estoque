@@ -48,4 +48,14 @@ public class ProdutoController implements ProdutoControllerDoc {
             @Valid @RequestBody ProdutoRequestDTO dto) {
         return ResponseFactory.success(service.editar(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<BaseResponse<Void>> deletar(@PathVariable Long id) {
+
+        service.deletar(id);
+
+        return ResponseFactory.success(null);
+    }
+
 }
