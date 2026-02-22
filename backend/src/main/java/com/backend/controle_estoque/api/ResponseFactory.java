@@ -1,4 +1,4 @@
-package com.backend.controleestoque.api;
+package com.backend.controle_estoque.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ public class ResponseFactory {
         BaseResponse<T> response = BaseResponse.<T>builder()
                 .codigoHTTP(HttpStatus.OK.value())
                 .retorno(data)
-                .error(null)
+                .erros(null)
                 .build();
 
         return ResponseEntity.ok(response);
@@ -20,14 +20,14 @@ public class ResponseFactory {
     public static ResponseEntity<BaseResponse<Object>> error(HttpStatus status, String code, String message) {
 
         ApiError error = ApiError.builder()
-                .code(code)
+                .codigo(code)
                 .mensagem(message)
                 .build();
 
         BaseResponse<Object> response = BaseResponse.builder()
                 .codigoHTTP(status.value())
                 .retorno(null)
-                .error(List.of(error))
+                .erros(List.of(error))
                 .build();
 
         return ResponseEntity.status(status).body(response);
