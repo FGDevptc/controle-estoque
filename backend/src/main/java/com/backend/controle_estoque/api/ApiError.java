@@ -9,9 +9,9 @@ import lombok.Data;
 @Schema(description = "Estrutura padrão de erro da API")
 public class ApiError {
 
-    @Schema(description = "Código interno do erro", example = "0002")
+    @Schema(description = "Código interno do erro", example = "9999")
     private String codigo;
 
-    @Schema(description = "Mensagem descritiva do erro", example = "Produto não encontrado")
+    @Schema(description = "Mensagem descritiva do erro", example = "Erro interno do servidor")
     private String mensagem;
 }

@@ -4,6 +4,7 @@ import com.backend.controle_estoque.api.BaseResponse;
 import com.backend.controle_estoque.dto.ProdutoRequestDTO;
 import com.backend.controle_estoque.dto.ProdutoResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -28,4 +29,13 @@ public interface ProdutoControllerDoc {
                         @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
         })
         ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar();
+
+        @Operation(summary = "Buscar produto por ID")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Produto encontrado"),
+                        @ApiResponse(responseCode = "404", description = "Produto não encontrado"),
+                        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+        })
+        ResponseEntity<BaseResponse<ProdutoResponseDTO>> buscarPorId(
+                        @Parameter(description = "ID do produto", example = "1") Long id);
 }

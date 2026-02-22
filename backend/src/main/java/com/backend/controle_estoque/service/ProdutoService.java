@@ -3,6 +3,7 @@ package com.backend.controle_estoque.service;
 import com.backend.controle_estoque.dto.ProdutoRequestDTO;
 import com.backend.controle_estoque.dto.ProdutoResponseDTO;
 import com.backend.controle_estoque.exception.BusinessException;
+import com.backend.controle_estoque.exception.ResourceNotFoundException;
 import com.backend.controle_estoque.mapper.ProdutoMapper;
 import com.backend.controle_estoque.model.Produto;
 import com.backend.controle_estoque.repository.ProdutoRepository;
@@ -41,5 +42,16 @@ public class ProdutoService {
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ProdutoResponseDTO buscarPorId(Long id) {
+
+        Produto produto = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "0002",
+                        "Produto não encontrado"));
+
+        return mapper.toResponse(produto);
     }
 }

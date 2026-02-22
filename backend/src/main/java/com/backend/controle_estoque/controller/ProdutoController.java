@@ -33,4 +33,11 @@ public class ProdutoController implements ProdutoControllerDoc {
     public ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar() {
         return ResponseFactory.success(service.listar());
     }
+
+    @GetMapping("/{id}")
+    @Override
+    public ResponseEntity<BaseResponse<ProdutoResponseDTO>> buscarPorId(
+            @PathVariable Long id) {
+        return ResponseFactory.success(service.buscarPorId(id));
+    }
 }
