@@ -40,4 +40,12 @@ public class ProdutoController implements ProdutoControllerDoc {
             @PathVariable Long id) {
         return ResponseFactory.success(service.buscarPorId(id));
     }
+
+    @PutMapping("/{id}")
+    @Override
+    public ResponseEntity<BaseResponse<ProdutoResponseDTO>> editar(
+            @PathVariable Long id,
+            @Valid @RequestBody ProdutoRequestDTO dto) {
+        return ResponseFactory.success(service.editar(id, dto));
+    }
 }

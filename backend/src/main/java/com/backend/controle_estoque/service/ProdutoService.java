@@ -54,4 +54,31 @@ public class ProdutoService {
 
         return mapper.toResponse(produto);
     }
+
+    @Transactional
+    public ProdutoResponseDTO editar(Long id, ProdutoRequestDTO dto) {
+
+        Produto produto = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "0002",
+                        "Produto não encontrado"));
+
+        if (!produto.getCodigo().equals(dto.codigo())
+                && repository.existsByCodigo(dto.codigo())) {
+
+            throw new BusinessException(
+                    "0001",
+                    "Já existe produto com esse código");
+        }
+
+        produto.setCodigo(dto.codigo());
+        produto.setDescricao(dto.descricao());
+        produto.setTipoProduto(dto.tipoProduto());
+        produto.setValorFornecedor(dto.valorFornecedor());
+        produto.setQuantidadeEstoque(dto.quantidadeEstoque());
+
+        Produto atualizado = repository.save(produto);
+
+        return mapper.toResponse(atualizado);
+    }
 }

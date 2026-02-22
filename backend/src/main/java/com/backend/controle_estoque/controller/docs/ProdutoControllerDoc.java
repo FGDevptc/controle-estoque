@@ -38,4 +38,15 @@ public interface ProdutoControllerDoc {
         })
         ResponseEntity<BaseResponse<ProdutoResponseDTO>> buscarPorId(
                         @Parameter(description = "ID do produto", example = "1") Long id);
+
+        @Operation(summary = "Atualizar produto")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Produto atualizado com sucesso"),
+                        @ApiResponse(responseCode = "400", description = "Erro de regra de negócio"),
+                        @ApiResponse(responseCode = "404", description = "Produto não encontrado"),
+                        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+        })
+        ResponseEntity<BaseResponse<ProdutoResponseDTO>> editar(
+                        Long id,
+                        ProdutoRequestDTO dto);
 }
