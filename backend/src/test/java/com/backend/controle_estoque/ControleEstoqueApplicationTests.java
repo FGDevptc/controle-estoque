@@ -1,4 +1,4 @@
-package com.backend.controle_estoque;
+package com.backend.controleestoque;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
