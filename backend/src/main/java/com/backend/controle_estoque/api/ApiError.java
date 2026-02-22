@@ -10,7 +10,7 @@ import lombok.Data;
 public class ApiError {
 
     @Schema(description = "Código interno do erro", example = "0002")
-    private String code;
+    private String codigo;
 
     @Schema(description = "Mensagem descritiva do erro", example = "Produto não encontrado")
     private String mensagem;

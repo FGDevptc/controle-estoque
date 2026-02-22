@@ -6,16 +6,26 @@ import com.backend.controle_estoque.dto.ProdutoResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 public interface ProdutoControllerDoc {
 
-    @Operation(summary = "Criar novo produto")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Produto criado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Erro de validação"),
-            @ApiResponse(responseCode = "500", description = "Erro interno")
-    })
-    ResponseEntity<BaseResponse<ProdutoResponseDTO>> criar(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do produto", required = true) ProdutoRequestDTO dto);
+        @Operation(summary = "Criar novo produto")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Produto criado com sucesso"),
+                        @ApiResponse(responseCode = "400", description = "Erro de validação"),
+                        @ApiResponse(responseCode = "500", description = "Erro interno")
+        })
+        ResponseEntity<BaseResponse<ProdutoResponseDTO>> criar(
+                        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do produto", required = true) ProdutoRequestDTO dto);
+
+        @Operation(summary = "Listar todos os produtos")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
+                        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+        })
+        ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar();
 }

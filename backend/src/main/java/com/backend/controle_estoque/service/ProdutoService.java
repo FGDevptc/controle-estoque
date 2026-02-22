@@ -6,8 +6,11 @@ import com.backend.controle_estoque.exception.BusinessException;
 import com.backend.controle_estoque.mapper.ProdutoMapper;
 import com.backend.controle_estoque.model.Produto;
 import com.backend.controle_estoque.repository.ProdutoRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,5 +32,14 @@ public class ProdutoService {
         Produto salvo = repository.save(produto);
 
         return mapper.toResponse(salvo);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProdutoResponseDTO> listar() {
+
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 }

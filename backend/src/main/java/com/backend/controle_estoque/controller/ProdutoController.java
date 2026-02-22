@@ -8,6 +8,9 @@ import com.backend.controle_estoque.dto.ProdutoResponseDTO;
 import com.backend.controle_estoque.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +23,14 @@ public class ProdutoController implements ProdutoControllerDoc {
 
     @PostMapping
     public ResponseEntity<BaseResponse<ProdutoResponseDTO>> criar(
-            @Valid @RequestBody ProdutoRequestDTO dto
-    ) {
+            @Valid @RequestBody ProdutoRequestDTO dto) {
         ProdutoResponseDTO response = service.criar(dto);
         return ResponseFactory.success(response);
+    }
+
+    @GetMapping
+    @Override
+    public ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar() {
+        return ResponseFactory.success(service.listar());
     }
 }
