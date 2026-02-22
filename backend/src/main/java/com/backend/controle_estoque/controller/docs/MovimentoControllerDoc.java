@@ -2,9 +2,15 @@ package com.backend.controle_estoque.controller.docs;
 
 import com.backend.controle_estoque.api.BaseResponse;
 import com.backend.controle_estoque.dto.MovimentoRequestDTO;
+import com.backend.controle_estoque.dto.MovimentoResponseDTO;
+
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 public interface MovimentoControllerDoc {
@@ -16,4 +22,12 @@ public interface MovimentoControllerDoc {
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
     })
     ResponseEntity<BaseResponse<Void>> movimentar(MovimentoRequestDTO dto);
+
+    @Operation(summary = "Listar movimentações por produto")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Movimentações retornadas com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado")
+    })
+    ResponseEntity<BaseResponse<List<MovimentoResponseDTO>>> listarPorProduto(
+            @Parameter(description = "ID do produto", example = "1") Long produtoId);
 }

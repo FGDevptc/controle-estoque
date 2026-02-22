@@ -1,6 +1,7 @@
 package com.backend.controle_estoque.mapper;
 
 import com.backend.controle_estoque.dto.MovimentoRequestDTO;
+import com.backend.controle_estoque.dto.MovimentoResponseDTO;
 import com.backend.controle_estoque.model.MovimentoEstoque;
 import com.backend.controle_estoque.model.Produto;
 import org.springframework.stereotype.Component;
@@ -19,5 +20,14 @@ public class MovimentoMapper {
                 .valorVenda(dto.valorVenda())
                 .dataMovimento(LocalDateTime.now())
                 .build();
+    }
+
+    public MovimentoResponseDTO toResponse(MovimentoEstoque movimento) {
+        return new MovimentoResponseDTO(
+                movimento.getId(),
+                movimento.getTipo(),
+                movimento.getQuantidade(),
+                movimento.getValorVenda(),
+                movimento.getDataMovimento());
     }
 }
