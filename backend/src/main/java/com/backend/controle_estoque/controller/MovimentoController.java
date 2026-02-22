@@ -3,6 +3,7 @@ package com.backend.controle_estoque.controller;
 import com.backend.controle_estoque.api.BaseResponse;
 import com.backend.controle_estoque.api.ResponseFactory;
 import com.backend.controle_estoque.controller.docs.MovimentoControllerDoc;
+import com.backend.controle_estoque.dto.LucroProdutoResponseDTO;
 import com.backend.controle_estoque.dto.MovimentoRequestDTO;
 import com.backend.controle_estoque.dto.MovimentoResponseDTO;
 import com.backend.controle_estoque.service.MovimentoService;
@@ -34,5 +35,12 @@ public class MovimentoController implements MovimentoControllerDoc {
     public ResponseEntity<BaseResponse<List<MovimentoResponseDTO>>> listarPorProduto(
             @PathVariable Long produtoId) {
         return ResponseFactory.success(service.listarPorProduto(produtoId));
+    }
+
+    @GetMapping("/produto/{produtoId}/lucro")
+    @Override
+    public ResponseEntity<BaseResponse<LucroProdutoResponseDTO>> calcularLucro(
+            @PathVariable Long produtoId) {
+        return ResponseFactory.success(service.calcularLucro(produtoId));
     }
 }

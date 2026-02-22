@@ -1,5 +1,6 @@
 package com.backend.controle_estoque.service;
 
+import com.backend.controle_estoque.dto.LucroProdutoResponseDTO;
 import com.backend.controle_estoque.dto.MovimentoRequestDTO;
 import com.backend.controle_estoque.dto.MovimentoResponseDTO;
 import com.backend.controle_estoque.exception.BusinessException;
@@ -12,6 +13,7 @@ import com.backend.controle_estoque.repository.MovimentoEstoqueRepository;
 import com.backend.controle_estoque.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -69,5 +71,27 @@ public class MovimentoService {
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public LucroProdutoResponseDTO calcularLucro(Long produtoId) {
+
+        Produto produto = produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new ResourceNotFoundException("0002", "Produto não encontrado"));
+
+        List<MovimentoEstoque> saidas = movimentoRepository.findByProdutoIdAndTipo(
+                produtoId,
+                TipoMovimentacaoEnum.SAIDA);
+
+        BigDecimal lucroTotal = saidas.stream()
+                .map(mov -> {
+                    BigDecimal lucroUnitario = mov.getValorVenda().subtract(produto.getValorFornecedor());
+
+                    return lucroUnitario.multiply(
+                            BigDecimal.valueOf(mov.getQuantidade()));
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new LucroProdutoResponseDTO(produtoId, lucroTotal);
     }
 }
