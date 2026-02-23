@@ -3,10 +3,10 @@ import { type AxiosInstance } from 'axios'
 import {
   ProdutoSchema,
   ProdutoApiResponseSchema,
+  type ProdutoRequest,
   type Produto,
 } from '~/schemas/produto.schema'
 import { ProdutoError } from './error/produto.error'
-import { z } from 'zod'
 
 export class ProdutoService extends BaseService {
   constructor(http: AxiosInstance) {
@@ -51,7 +51,7 @@ export class ProdutoService extends BaseService {
       this.handleError(e, ProdutoError)
     }
   }
-  async criar(payload: any) {
+  async criar(payload: ProdutoRequest) {
     try {
       const { data } = await this.http.post(
         '/api/produtos',
@@ -66,7 +66,7 @@ export class ProdutoService extends BaseService {
     }
   }
 
-  async atualizar(id: number, payload: any) {
+  async atualizar(id: number, payload: ProdutoRequest) {
     try {
       const { data } = await this.http.put(
         `/api/produtos/${id}`,
@@ -81,13 +81,13 @@ export class ProdutoService extends BaseService {
     }
   }
 
-async remover(id: number) {
-  try {
-    await this.http.delete(
-      `/api/produtos/${id}`
-    )
-  } catch (e) {
-    this.handleError(e, ProdutoError)
+  async remover(id: number) {
+    try {
+      await this.http.delete(
+        `/api/produtos/${id}`
+      )
+    } catch (e) {
+      this.handleError(e, ProdutoError)
+    }
   }
-}
 }

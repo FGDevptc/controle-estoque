@@ -11,6 +11,7 @@ import { useApi } from '~/composables/useApi'
 
 const store = useProdutosStore()
 const { ask } = useAppConfirm()
+const router = useRouter()
 
 const { execute } = useApi()
 
@@ -55,6 +56,13 @@ function abrirNovo() {
 function abrirEditar(produto: Produto) {
   produtoEditando.value = produto
   showDialog.value = true
+}
+
+function verLucro(produto: Produto) {
+  router.push({
+    path: '/consultas/lucro',
+    query: { produtoId: String(produto.id) },
+  })
 }
 
 async function excluir(produto: Produto) {
@@ -104,6 +112,7 @@ async function excluir(produto: Produto) {
     :value="store.itens"
     dataKey="id"
     :loading="store.loading"
+    emptyMessage="Nao ha informacoes registradas no sistema"
     paginator
     lazy
     :rows="store.size"
@@ -117,11 +126,32 @@ async function excluir(produto: Produto) {
     <Column field="quantidadeDisponivel" header="Disponivel" />
     <Column field="quantidadeTotalSaida" header="Saida Total" />
 
-    <Column header="Acoes" :style="{ width: '150px' }">
+    <Column header="Acoes" :style="{ width: '210px' }">
       <template #body="{ data }">
         <div class="flex justify-end gap-2">
-          <Button icon="pi pi-pencil" text @click="abrirEditar(data)" />
-          <Button icon="pi pi-trash" text severity="danger" @click="excluir(data)" />
+          <Button
+            icon="pi pi-dollar"
+            text
+            severity="contrast"
+            title="Ver lucro"
+            aria-label="Ver lucro"
+            @click="verLucro(data)"
+          />
+          <Button
+            icon="pi pi-pencil"
+            text
+            title="Editar produto"
+            aria-label="Editar produto"
+            @click="abrirEditar(data)"
+          />
+          <Button
+            icon="pi pi-trash"
+            text
+            severity="danger"
+            title="Excluir produto"
+            aria-label="Excluir produto"
+            @click="excluir(data)"
+          />
         </div>
       </template>
     </Column>

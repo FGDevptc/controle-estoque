@@ -33,8 +33,8 @@ function onConfirmVisibleChange(value: boolean) {
     @confirm="confirm"
     @cancel="cancel"
   />
-  <div class="flex min-h-screen">
-    <aside class="flex h-screen w-64 flex-col bg-indigo-700 p-6 text-white">
+  <div class="flex min-h-screen items-stretch">
+    <aside class="flex min-h-screen w-64 flex-col bg-indigo-700 p-6 text-white">
       <h1 class="mb-10 text-2xl font-bold">Estoque</h1>
 
       <nav class="flex flex-col gap-2 text-sm">
@@ -66,16 +66,6 @@ function onConfirmVisibleChange(value: boolean) {
           ]"
         >
           Movimentar
-        </NuxtLink>
-
-        <NuxtLink
-          to="/consultas/por-tipo"
-          :class="[
-            'rounded p-2 transition hover:bg-indigo-600',
-            isActive('/consultas') ? 'bg-indigo-800' : ''
-          ]"
-        >
-          Consulta por Tipo
         </NuxtLink>
       </nav>
     </aside>

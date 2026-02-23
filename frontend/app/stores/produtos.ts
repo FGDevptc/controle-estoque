@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ProdutoService } from '~/services/produtos/produto.service'
-import type { Produto } from '~/schemas/produto.schema'
+import type { Produto, ProdutoRequest } from '~/schemas/produto.schema'
 
 export const useProdutosStore = defineStore('produtos', () => {
   const { $axios } = useNuxtApp()
@@ -26,8 +26,6 @@ export const useProdutosStore = defineStore('produtos', () => {
         tipo: tipoProdutoFiltro.value ?? undefined,
       })
 
-      console.log('RES API:', res)
-
       if (!res) return
 
       itens.value = res.content
@@ -41,13 +39,13 @@ export const useProdutosStore = defineStore('produtos', () => {
     }
   }
 
-  async function criar(payload: any) {
+  async function criar(payload: ProdutoRequest) {
     const result = await service.criar(payload)
     await listar()
     return result
   }
 
-  async function atualizar(id: number, payload: any) {
+  async function atualizar(id: number, payload: ProdutoRequest) {
     const result = await service.atualizar(id, payload)
     await listar()
     return result

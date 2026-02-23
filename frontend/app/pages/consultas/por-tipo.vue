@@ -27,6 +27,7 @@ const produtos = ref([])
       :value="produtos"
       paginator
       :rows="10"
+      emptyMessage="Nao ha informacoes registradas no sistema"
     >
       <Column field="codigo" header="Código" />
       <Column field="descricao" header="Descrição" />
