@@ -85,10 +85,11 @@ public class MovimentoService {
 
         BigDecimal lucroTotal = saidas.stream()
                 .map(mov -> {
-                    BigDecimal lucroUnitario = mov.getValorVenda().subtract(produto.getValorFornecedor());
-
-                    return lucroUnitario.multiply(
-                            BigDecimal.valueOf(mov.getQuantidade()));
+                    BigDecimal quantidadeVendida = BigDecimal.valueOf(mov.getQuantidade());
+                    BigDecimal valorVenda = mov.getValorVenda() == null ? BigDecimal.ZERO : mov.getValorVenda();
+                    BigDecimal faturamentoMovimento = quantidadeVendida.multiply(valorVenda);
+                    BigDecimal custoMovimento = quantidadeVendida.multiply(produto.getValorFornecedor());
+                    return faturamentoMovimento.subtract(custoMovimento);
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 

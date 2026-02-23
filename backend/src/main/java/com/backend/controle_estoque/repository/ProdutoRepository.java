@@ -37,4 +37,13 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findByTipoProduto(TipoProdutoEnum tipoProduto);
 
     boolean existsByCodigo(String codigo);
+
+    long countByAtivoTrue();
+
+    @Query("""
+                SELECT COALESCE(SUM(p.quantidadeEstoque), 0)
+                FROM Produto p
+                WHERE p.ativo = true
+            """)
+    Long somarQuantidadeEstoqueAtivo();
 }
