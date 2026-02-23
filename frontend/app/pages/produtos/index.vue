@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { useProdutosStore } from '~/stores/produtos'
-import type { Produto } from '~/schemas/produto.schema'
+import { TipoProdutoEnum, type Produto } from '~/schemas/produto.schema'
 
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
+import Dropdown from 'primevue/dropdown'
 import { useApi } from '~/composables/useApi'
 
 const store = useProdutosStore()
 const { ask } = useAppConfirm()
 
-const { execute } = useApi();
+const { execute } = useApi()
+
+const opcoesTipo = [
+  { label: 'Todos', value: null },
+  ...TipoProdutoEnum.options.map((tipo) => ({
+    label: tipo,
+    value: tipo,
+  })),
+]
 
 await execute(() => store.listar(), {
   errorMessage: 'Erro ao carregar produtos',
@@ -20,13 +29,21 @@ await execute(() => store.listar(), {
 const showDialog = ref(false)
 const produtoEditando = ref<Produto | null>(null)
 
-
 async function onPage(event: any) {
   store.page = event.page
-  store.size = event.rows
+  store.size = Math.min(event.rows ?? 5, 5)
 
   await execute(() => store.listar(), {
-    errorMessage: 'Erro ao carregar página',
+    errorMessage: 'Erro ao carregar pagina',
+  })
+}
+
+async function onTipoProdutoChange() {
+  store.page = 0
+  store.size = 5
+
+  await execute(() => store.listar(), {
+    errorMessage: 'Erro ao filtrar produtos',
   })
 }
 
@@ -60,7 +77,22 @@ async function excluir(produto: Produto) {
 <template>
   <PageHeader title="Produtos" subtitle="Gerencie os produtos" />
 
-  <div class="mb-4 flex justify-end">
+  <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <div class="w-full max-w-xs">
+      <label class="mb-1 block text-sm text-gray-600">
+        Filtrar por tipo
+      </label>
+      <Dropdown
+        v-model="store.tipoProdutoFiltro"
+        :options="opcoesTipo"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Todos os tipos"
+        class="w-full"
+        @change="onTipoProdutoChange"
+      />
+    </div>
+
     <Button label="Novo Produto" icon="pi pi-plus" @click="abrirNovo" />
   </div>
 
@@ -79,13 +111,13 @@ async function excluir(produto: Produto) {
     :first="store.page * store.size"
     @page="onPage"
   >
-    <Column field="codigo" header="Código" />
-    <Column field="descricao" header="Descrição" />
+    <Column field="codigo" header="Codigo" />
+    <Column field="descricao" header="Descricao" />
     <Column field="tipoProduto" header="Tipo" />
-    <Column field="quantidadeDisponivel" header="Disponível" />
-    <Column field="quantidadeTotalSaida" header="Saída Total" />
+    <Column field="quantidadeDisponivel" header="Disponivel" />
+    <Column field="quantidadeTotalSaida" header="Saida Total" />
 
-    <Column header="Ações" :style="{ width: '150px' }">
+    <Column header="Acoes" :style="{ width: '150px' }">
       <template #body="{ data }">
         <div class="flex justify-end gap-2">
           <Button icon="pi pi-pencil" text @click="abrirEditar(data)" />
@@ -94,6 +126,7 @@ async function excluir(produto: Produto) {
       </template>
     </Column>
   </DataTable>
+
   <Dialog
     v-model:visible="showDialog"
     modal

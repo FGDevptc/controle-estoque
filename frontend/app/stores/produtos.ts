@@ -9,9 +9,10 @@ export const useProdutosStore = defineStore('produtos', () => {
   const itens = ref<Produto[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
+  const tipoProdutoFiltro = ref<string | null>(null)
 
   const page = ref(0)
-  const size = ref(20)
+  const size = ref(5)
   const total = ref(0)
 
   async function listar() {
@@ -22,6 +23,7 @@ export const useProdutosStore = defineStore('produtos', () => {
       const res = await service.listar({
         page: page.value,
         size: size.value,
+        tipo: tipoProdutoFiltro.value ?? undefined,
       })
 
       console.log('RES API:', res)
@@ -31,7 +33,7 @@ export const useProdutosStore = defineStore('produtos', () => {
       itens.value = res.content
       total.value = res.totalElements
       page.value = res.page
-      size.value = res.size
+      size.value = Math.min(res.size, 5)
     } catch (e: any) {
       error.value = e.message
     } finally {
@@ -63,6 +65,7 @@ export const useProdutosStore = defineStore('produtos', () => {
     page,
     size,
     total,
+    tipoProdutoFiltro,
     listar,
     criar,
     atualizar,

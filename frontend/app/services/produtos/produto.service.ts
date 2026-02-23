@@ -16,6 +16,7 @@ export class ProdutoService extends BaseService {
   async listar(params?: {
     page?: number
     size?: number
+    tipo?: string
   }) {
     try {
       const { data } = await this.http.get(
