@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { Toaster } from 'vue-sonner'
+
 const route = useRoute()
+const { state: confirmState, confirm, cancel } = useAppConfirm()
 
 const isActive = (path: string) => {
   if (path === '/') {
@@ -8,8 +11,28 @@ const isActive = (path: string) => {
 
   return route.path.startsWith(path)
 }
+
+function onConfirmVisibleChange(value: boolean) {
+  if (!value) {
+    cancel()
+  }
+}
 </script>
 <template>
+  <ClientOnly>
+    <Toaster richColors position="top-right" />
+  </ClientOnly>
+  <GlobalLoader/>
+  <AppConfirm
+    :visible="confirmState.visible"
+    :title="confirmState.title"
+    :message="confirmState.message"
+    :confirm-label="confirmState.confirmLabel"
+    :cancel-label="confirmState.cancelLabel"
+    @update:visible="onConfirmVisibleChange"
+    @confirm="confirm"
+    @cancel="cancel"
+  />
   <div class="flex min-h-screen">
     <aside class="flex h-screen w-64 flex-col bg-indigo-700 p-6 text-white">
       <h1 class="mb-10 text-2xl font-bold">Estoque</h1>
@@ -56,6 +79,7 @@ const isActive = (path: string) => {
         </NuxtLink>
       </nav>
     </aside>
+    
 
     <div class="flex flex-1 flex-col bg-gray-100">
       <header class="flex h-16 items-center justify-between bg-white px-8 shadow-sm">

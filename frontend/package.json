@@ -14,6 +14,8 @@
     "@pinia/nuxt": "^0.11.3",
     "@primeuix/themes": "^2.0.3",
     "@primevue/themes": "^4.5.4",
+    "@vueuse/core": "^14.2.1",
+    "axios": "^1.13.5",
     "nuxt": "^4.3.1",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
@@ -21,6 +23,7 @@
     "primevue": "^4.5.4",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4",
+    "vue-sonner": "^2.0.9",
     "zod": "^4.3.6"
   },
   "devDependencies": {

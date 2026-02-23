@@ -9,6 +9,11 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
   ],
 
+  css: [
+    'primeicons/primeicons.css',
+    'vue-sonner/style.css'
+  ],
+
   primevue: {
     autoImport: true,
     options: {
@@ -24,11 +29,9 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ["primeicons/primeicons.css"],
-
   runtimeConfig: {
     public: {
-      apiURL: "",
+      apiBase: '',
     },
   },
 
