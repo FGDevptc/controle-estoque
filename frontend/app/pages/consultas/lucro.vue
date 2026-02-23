@@ -24,24 +24,17 @@ const {
   produtos,
   carregandoProdutos,
   produtoOptions: opcoesProduto,
-  findProdutoById,
   carregarProdutos,
 } = useProdutosLookup()
 
-const dados = ref<
-  Array<{
-    produtoId: number
-    descricao: string
-    totalSaida: number
-    lucro: number
-  }>
->([])
 const historicoMovimentacoes = ref<MovimentoHistorico[]>([])
+const lucroTotal = ref(0)
 
-const produtoSelecionado = computed(() => findProdutoById(produtoIdSelecionado.value))
-
-const totalLucro = computed(() =>
-  dados.value.reduce((acc, item) => acc + item.lucro, 0)
+const totalSaida = computed(() =>
+  historicoMovimentacoes.value.reduce((acc, mov) => {
+    if (mov.tipo !== 'SAIDA') return acc
+    return acc + Number(mov.quantidade ?? 0)
+  }, 0)
 )
 
 const formatCurrency = (value: number) =>
@@ -73,7 +66,7 @@ async function consultarLucro() {
     return
   }
 
-  dados.value = []
+  lucroTotal.value = 0
   historicoMovimentacoes.value = []
   consultandoLucro.value = true
 
@@ -95,18 +88,7 @@ async function consultarLucro() {
 
   if (!lucroResponse || !historicoResponse) return
 
-  const lucro = Number(lucroResponse.lucroTotal ?? 0)
-  const produto = produtoSelecionado.value
-
-  dados.value = [
-    {
-      produtoId: produtoIdSelecionado.value,
-      descricao: produto?.descricao ?? `Produto ${produtoIdSelecionado.value}`,
-      totalSaida: Number(produto?.quantidadeTotalSaida ?? 0),
-      lucro,
-    },
-  ]
-
+  lucroTotal.value = Number(lucroResponse.lucroTotal ?? 0)
   historicoMovimentacoes.value = historicoResponse
 }
 
@@ -166,23 +148,20 @@ if (produtoIdFromQuery) {
     </div>
   </div>
 
-  <div class="rounded border border-gray-200 bg-white p-4 shadow-sm">
-    <DataTable
-      :value="dados"
-      :loading="consultandoLucro"
-      dataKey="produtoId"
-      paginator
-      :rows="5"
-      emptyMessage="Nao ha informacoes registradas no sistema"
-    >
-      <Column field="descricao" header="Produto" />
-      <Column field="totalSaida" header="Total Saida" />
-      <Column header="Lucro">
-        <template #body="{ data }">
-          {{ formatCurrency(data.lucro) }}
-        </template>
-      </Column>
-    </DataTable>
+  <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="metric-card rounded border border-gray-200 bg-white shadow-sm">
+      <p class="text-sm text-gray-600">Total Saida</p>
+      <p class="mt-2 text-3xl font-semibold text-gray-800">
+        {{ totalSaida }}
+      </p>
+    </div>
+
+    <div class="metric-card rounded border border-gray-200 bg-white shadow-sm">
+      <p class="text-sm text-gray-600">Lucro</p>
+      <p class="mt-2 text-3xl font-semibold text-green-600">
+        {{ formatCurrency(lucroTotal) }}
+      </p>
+    </div>
   </div>
 
   <div class="mt-4 rounded border border-gray-200 bg-white p-4 shadow-sm">
@@ -217,9 +196,10 @@ if (produtoIdFromQuery) {
     </DataTable>
   </div>
 
-  <div class="mt-6 text-right">
-    <span class="text-xl font-semibold text-green-600">
-      Total Geral: {{ formatCurrency(totalLucro) }}
-    </span>
-  </div>
 </template>
+
+<style scoped>
+.metric-card {
+  padding: 1rem 1.25rem;
+}
+</style>
