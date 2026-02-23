@@ -1,16 +1,22 @@
 package com.backend.controle_estoque.controller;
 
 import com.backend.controle_estoque.api.BaseResponse;
+import com.backend.controle_estoque.api.PageBaseResponse;
 import com.backend.controle_estoque.api.ResponseFactory;
 import com.backend.controle_estoque.controller.docs.ProdutoControllerDoc;
+import com.backend.controle_estoque.dto.ProdutoListagemResponseDTO;
 import com.backend.controle_estoque.dto.ProdutoRequestDTO;
 import com.backend.controle_estoque.dto.ProdutoResponseDTO;
+import com.backend.controle_estoque.model.enums.TipoProdutoEnum;
 import com.backend.controle_estoque.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +36,10 @@ public class ProdutoController implements ProdutoControllerDoc {
 
     @GetMapping
     @Override
-    public ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar() {
-        return ResponseFactory.success(service.listar());
+    public ResponseEntity<BaseResponse<PageBaseResponse<ProdutoListagemResponseDTO>>> listar(
+            @RequestParam(required = false) TipoProdutoEnum tipo,
+            @ParameterObject Pageable pageable) {
+        return ResponseFactory.success(service.listar(tipo, pageable));
     }
 
     @GetMapping("/{id}")

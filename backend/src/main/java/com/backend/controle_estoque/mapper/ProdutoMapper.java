@@ -15,6 +15,7 @@ public class ProdutoMapper {
                 .tipoProduto(dto.tipoProduto())
                 .valorFornecedor(dto.valorFornecedor())
                 .quantidadeEstoque(dto.quantidadeEstoque())
+                .ativo(true)
                 .build();
     }
 

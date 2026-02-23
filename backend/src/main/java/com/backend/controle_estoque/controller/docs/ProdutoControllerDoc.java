@@ -1,8 +1,12 @@
 package com.backend.controle_estoque.controller.docs;
 
 import com.backend.controle_estoque.api.BaseResponse;
+import com.backend.controle_estoque.api.PageBaseResponse;
+import com.backend.controle_estoque.dto.ProdutoListagemResponseDTO;
 import com.backend.controle_estoque.dto.ProdutoRequestDTO;
 import com.backend.controle_estoque.dto.ProdutoResponseDTO;
+import com.backend.controle_estoque.model.enums.TipoProdutoEnum;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface ProdutoControllerDoc {
@@ -23,12 +29,13 @@ public interface ProdutoControllerDoc {
         ResponseEntity<BaseResponse<ProdutoResponseDTO>> criar(
                         @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do produto", required = true) ProdutoRequestDTO dto);
 
-        @Operation(summary = "Listar todos os produtos")
+        @Operation(summary = "Listar produtos com filtro por tipo e paginação")
         @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso"),
-                        @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+                        @ApiResponse(responseCode = "200", description = "Produtos retornados com sucesso")
         })
-        ResponseEntity<BaseResponse<List<ProdutoResponseDTO>>> listar();
+        ResponseEntity<BaseResponse<PageBaseResponse<ProdutoListagemResponseDTO>>> listar(
+                        TipoProdutoEnum tipo,
+                        Pageable pageable);
 
         @Operation(summary = "Buscar produto por ID")
         @ApiResponses(value = {

@@ -1,17 +1,22 @@
 package com.backend.controle_estoque.service;
 
+import com.backend.controle_estoque.api.PageBaseResponse;
+import com.backend.controle_estoque.dto.ProdutoListagemResponseDTO;
 import com.backend.controle_estoque.dto.ProdutoRequestDTO;
 import com.backend.controle_estoque.dto.ProdutoResponseDTO;
 import com.backend.controle_estoque.exception.BusinessException;
 import com.backend.controle_estoque.exception.ResourceNotFoundException;
 import com.backend.controle_estoque.mapper.ProdutoMapper;
 import com.backend.controle_estoque.model.Produto;
+import com.backend.controle_estoque.model.enums.TipoProdutoEnum;
 import com.backend.controle_estoque.repository.ProdutoRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,11 +41,20 @@ public class ProdutoService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProdutoResponseDTO> listar() {
-        return repository.findByAtivoTrue()
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
+    public PageBaseResponse<ProdutoListagemResponseDTO> listar(
+            TipoProdutoEnum tipo,
+            Pageable pageable) {
+
+        Page<ProdutoListagemResponseDTO> page = repository.listarComFiltro(tipo, pageable);
+
+        return new PageBaseResponse<ProdutoListagemResponseDTO>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.hasNext(),
+                page.hasPrevious());
     }
 
     @Transactional(readOnly = true)
