@@ -15,6 +15,8 @@ export const ProdutoSchema = z.object({
   codigo: z.string(),
   descricao: z.string(),
   tipoProduto: TipoProdutoEnum,
+  valorFornecedor: z.number(),
+  quantidadeEstoque: z.number(),
   quantidadeDisponivel: z.number(),
   quantidadeTotalSaida: z.number(),
 })

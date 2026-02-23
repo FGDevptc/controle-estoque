@@ -30,6 +30,12 @@ await execute(() => store.listar(), {
 const showDialog = ref(false)
 const produtoEditando = ref<Produto | null>(null)
 
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(Number(value ?? 0))
+
 async function onPage(event: any) {
   store.page = event.page
   store.size = Math.min(event.rows ?? 5, 5)
@@ -123,6 +129,12 @@ async function excluir(produto: Produto) {
     <Column field="codigo" header="Codigo" />
     <Column field="descricao" header="Descricao" />
     <Column field="tipoProduto" header="Tipo" />
+    <Column header="Valor Fornecedor">
+      <template #body="{ data }">
+        {{ formatCurrency(data.valorFornecedor) }}
+      </template>
+    </Column>
+    <Column field="quantidadeEstoque" header="Estoque" />
     <Column field="quantidadeDisponivel" header="Disponivel" />
     <Column field="quantidadeTotalSaida" header="Saida Total" />
 
