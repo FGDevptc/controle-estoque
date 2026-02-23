@@ -1,5 +1,7 @@
 package com.backend.controle_estoque.dto;
 
+import java.math.BigDecimal;
+
 import com.backend.controle_estoque.model.enums.TipoProdutoEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -15,7 +17,14 @@ public record ProdutoListagemResponseDTO(
         @Schema(example = "Smart TV")
         String descricao,
 
+        @Schema(example = "ELETRONICO")
         TipoProdutoEnum tipoProduto,
+
+        @Schema(description = "Valor de compra no fornecedor", example = "1500.00")
+        BigDecimal valorFornecedor,
+
+        @Schema(description = "Quantidade disponível em estoque", example = "10")
+        Integer quantidadeEstoque,
 
         @Schema(description = "Quantidade disponível em estoque", example = "10")
         Integer quantidadeDisponivel,

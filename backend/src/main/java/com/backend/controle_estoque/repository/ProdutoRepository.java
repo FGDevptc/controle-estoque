@@ -19,6 +19,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
                     p.codigo,
                     p.descricao,
                     p.tipoProduto,
+                    p.valorFornecedor,
+                    p.quantidadeEstoque,
                     p.quantidadeEstoque,
                     COALESCE(SUM(m.quantidade), 0)
                 )
@@ -28,7 +30,13 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
                     AND m.tipo = 'SAIDA'
                 WHERE p.ativo = true
                   AND (:tipo IS NULL OR p.tipoProduto = :tipo)
-                GROUP BY p.id
+                GROUP BY
+                    p.id,
+                    p.codigo,
+                    p.descricao,
+                    p.tipoProduto,
+                    p.valorFornecedor,
+                    p.quantidadeEstoque
             """)
     Page<ProdutoListagemResponseDTO> listarComFiltro(
             TipoProdutoEnum tipo,
@@ -36,7 +44,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     List<Produto> findByTipoProduto(TipoProdutoEnum tipoProduto);
 
-    boolean existsByCodigo(String codigo);
+    boolean existsByCodigoAndAtivoTrue(String codigo);
 
     long countByAtivoTrue();
 

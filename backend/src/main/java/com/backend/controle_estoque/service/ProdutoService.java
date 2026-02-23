@@ -13,8 +13,6 @@ import com.backend.controle_estoque.repository.ProdutoRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class ProdutoService {
     @Transactional
     public ProdutoResponseDTO criar(ProdutoRequestDTO dto) {
 
-        if (repository.existsByCodigo(dto.codigo())) {
+        if (repository.existsByCodigoAndAtivoTrue(dto.codigo())) {
             throw new BusinessException("0001", "Já existe produto com esse código");
         }
 
@@ -76,8 +74,8 @@ public class ProdutoService {
                         "0002",
                         "Produto não encontrado"));
 
-        if (!produto.getCodigo().equals(dto.codigo())
-                && repository.existsByCodigo(dto.codigo())) {
+        if (!produto.getCodigo().equals(dto.codigo()) && produto.getAtivo()
+                && repository.existsByCodigoAndAtivoTrue(dto.codigo())) {
 
             throw new BusinessException(
                     "0001",
