@@ -16,7 +16,7 @@ public interface MovimentoEstoqueRepository extends JpaRepository<MovimentoEstoq
 
     @Query("""
                 SELECT
-                    COALESCE(SUM(m.valorVenda * m.quantidade), 0)
+                    COALESCE(SUM(m.valorVenda), 0)
                     - COALESCE(SUM(p.valorFornecedor * m.quantidade), 0)
                 FROM MovimentoEstoque m
                 JOIN m.produto p
