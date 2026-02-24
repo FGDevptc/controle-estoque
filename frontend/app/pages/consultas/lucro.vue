@@ -10,7 +10,7 @@ import Dropdown from 'primevue/dropdown'
 import Button from 'primevue/button'
 
 definePageMeta({
-  layout: 'default',
+  layout: 'default'
 })
 
 const { $axios, $toast } = useNuxtApp()
@@ -24,7 +24,7 @@ const {
   produtos,
   carregandoProdutos,
   produtoOptions: opcoesProduto,
-  carregarProdutos,
+  carregarProdutos
 } = useProdutosLookup()
 
 const historicoMovimentacoes = ref<MovimentoHistorico[]>([])
@@ -40,7 +40,7 @@ const totalSaida = computed(() =>
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat('pt-BR', {
     style: 'currency',
-    currency: 'BRL',
+    currency: 'BRL'
   }).format(value)
 
 const formatDateTime = (value: string) => {
@@ -50,14 +50,12 @@ const formatDateTime = (value: string) => {
 
   return new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'short',
-    timeStyle: 'short',
+    timeStyle: 'short'
   }).format(date)
 }
 
 const historicoOrdenado = computed(() =>
-  [...historicoMovimentacoes.value].sort((a, b) =>
-    b.dataMovimento.localeCompare(a.dataMovimento)
-  )
+  [...historicoMovimentacoes.value].sort((a, b) => b.dataMovimento.localeCompare(a.dataMovimento))
 )
 
 async function consultarLucro() {
@@ -73,14 +71,14 @@ async function consultarLucro() {
   const lucroResponse = await execute(
     () => service.consultarLucro(produtoIdSelecionado.value as number),
     {
-      errorMessage: 'Erro ao consultar lucro do produto',
+      errorMessage: 'Erro ao consultar lucro do produto'
     }
   )
 
   const historicoResponse = await execute(
     () => service.listarPorProduto(produtoIdSelecionado.value as number),
     {
-      errorMessage: 'Erro ao consultar historico de movimentacoes',
+      errorMessage: 'Erro ao consultar historico de movimentacoes'
     }
   )
 
@@ -102,7 +100,7 @@ function parseProdutoIdFromQuery() {
 }
 
 await carregarProdutos({
-  errorMessage: 'Erro ao carregar produtos',
+  errorMessage: 'Erro ao carregar produtos'
 })
 
 const produtoIdFromQuery = parseProdutoIdFromQuery()
@@ -116,10 +114,7 @@ if (produtoIdFromQuery) {
 </script>
 
 <template>
-  <PageHeader
-    title="Consulta de Lucro"
-    subtitle="Lucro por produto"
-  />
+  <PageHeader title="Consulta de Lucro" subtitle="Lucro por produto" />
 
   <div class="mb-4 rounded border border-gray-200 bg-white p-4 shadow-sm">
     <div class="flex flex-wrap items-end gap-3">
@@ -158,16 +153,21 @@ if (produtoIdFromQuery) {
 
     <div class="metric-card rounded border border-gray-200 bg-white shadow-sm">
       <p class="text-sm text-gray-600">Lucro</p>
-      <p class="mt-2 text-3xl font-semibold text-green-600">
+      <p
+        class="mt-2 text-3xl font-semibold"
+        :class="{
+          'text-green-600': lucroTotal > 0,
+          'text-gray-600': lucroTotal === 0,
+          'text-red-600': lucroTotal < 0
+        }"
+      >
         {{ formatCurrency(lucroTotal) }}
       </p>
     </div>
   </div>
 
   <div class="mt-4 rounded border border-gray-200 bg-white p-4 shadow-sm">
-    <h3 class="mb-3 text-sm font-semibold text-gray-700">
-      Historico de movimentacoes
-    </h3>
+    <h3 class="mb-3 text-sm font-semibold text-gray-700">Historico de movimentacoes</h3>
 
     <DataTable
       :value="historicoOrdenado"
@@ -195,7 +195,6 @@ if (produtoIdFromQuery) {
       </Column>
     </DataTable>
   </div>
-
 </template>
 
 <style scoped>

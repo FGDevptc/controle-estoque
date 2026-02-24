@@ -61,7 +61,11 @@ await carregarResumo()
 
     <div class="dashboard-card min-w-[220px] flex-1 rounded border border-gray-200 bg-white shadow-sm">
       <p class="text-sm text-gray-500">Lucro Total</p>
-      <p class="mt-2 text-3xl font-bold text-green-600">
+      <p class="mt-2 text-3xl font-bold" :class="{
+          'text-green-600': lucroTotal > 0,
+          'text-gray-600': lucroTotal === 0,
+          'text-red-600': lucroTotal < 0
+        }">
         {{ carregandoResumo ? '...' : formatCurrency(lucroTotal) }}
       </p>
     </div>

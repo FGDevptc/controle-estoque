@@ -140,7 +140,7 @@ await carregarProdutos({
 
     <div class="flex flex-col gap-1">
       <label class="text-sm text-gray-600">
-        Valor de venda
+        Valor total da venda
         <span class="text-gray-500">(obrigatorio para saida)</span>
       </label>
       <InputNumber
