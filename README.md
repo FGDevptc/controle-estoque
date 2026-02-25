@@ -1,6 +1,6 @@
 # 📦 Controle de Estoque
 
-Sistema completo de controle de estoque desenvolvido como parte de um desafio técnico, com arquitetura full stack moderna utilizando **Spring Boot (Back-end)** e **Nuxt 3 (Front-end)**.
+Sistema completo de controle de estoque desenvolvido como parte de um desafio técnico, com arquitetura full stack moderna utilizando **Spring Boot (Back-end)** e **Nuxt 4 (Front-end)**.
 
 O projeto foi estruturado seguindo boas práticas de arquitetura, organização de código, separação de responsabilidades e validação em múltiplas camadas.
 
@@ -14,7 +14,7 @@ A aplicação está organizada em duas camadas principais:
 controle-estoque/
 │
 ├── backend/   → API REST (Spring Boot)
-└── frontend/  → SPA (Nuxt 3 + Vue 3)
+└── frontend/  → SPA (Nuxt 4 + Vue 3)
 ```
 
 ### 🔹 Back-end
