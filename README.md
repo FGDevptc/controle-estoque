@@ -45,7 +45,7 @@ controle-estoque/
 - Swagger / OpenAPI
 
 ## 🔹 Front-end
-- Nuxt 3
+- Nuxt 4
 - Vue 3 (Composition API)
 - TypeScript
 - Pinia
